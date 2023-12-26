@@ -2,6 +2,7 @@ import os
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import tensorflow as tf
+import datetime
 import random
 
 
@@ -112,3 +113,25 @@ def make_predictions(model, class_names, image_path):
     plt.imshow(img)
     plt.title(f"Prediction: {pred_class}")
     plt.axis(False)
+
+
+def create_tensorboard_callback(save_path, experiment_name):
+    """
+    Creates a TensorBoard callback to store log files.
+
+    Stores log files with the filepath:
+      "save_path/experiment_name/current_datetime/"
+
+    Parameters
+    ----------
+    - save_path: target directory to store TensorBoard log files
+    - experiment_name: name of experiment directory
+
+    Returns
+    ----------
+    - callback: TensorBoard callback
+    """
+    log_dir = save_path + "/" + experiment_name + "/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
+    print(f"Saving TensorBoard log files to: {log_dir}")
+    return tensorboard_callback
