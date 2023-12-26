@@ -1,6 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import tensorflow as tf
 import random
 
 
@@ -8,7 +9,8 @@ def show_images(target_dir, class_name):
     """
     Shows 3 random images from `class_name` folder in `target_dir` folder.
 
-    Parameters:
+    Parameters
+    ----------
     - target_dir: Path to the parent directory that contains class_name folders.
     - class_name: Name of the folder where images of a particular class are present.
     """
@@ -30,7 +32,8 @@ def plot_curves(history):
     """
     Plots training, validation accuracy and loss curves.
 
-    Parameters:
+    Parameters
+    ----------
     - history: TensorFlow model History object
     """
     loss = history.history['loss']
@@ -55,3 +58,57 @@ def plot_curves(history):
     plt.title('Accuracy')
     plt.xlabel('Epochs')
     plt.legend()
+
+
+def preprocess_image(image_path, image_size=224, scale=True):
+    """
+    Reads the provided image, converts it into a tensor and reshapes into (224, 224, 3).
+
+    Parameters
+    ----------
+    - image_path: path to the target image
+    - image_size: size to resize target image to, default 224
+    - scale : whether to scale pixel values to range(0, 1), default True
+
+    Returns
+    ----------
+    - img: resized and rescaled tensor of shape (224, 224, 3)
+    """
+
+    img = tf.io.read_file(image_path)
+    # Decode the image into tensor
+    img = tf.image.decode_jpeg(img)
+    # Resize the image
+    img = tf.image.resize(img, [image_size, image_size])
+    if scale:
+        return img / 255.
+    else:
+        return img
+
+
+def make_predictions(model, class_names, image_path):
+    """
+    Make predictions on the given image, with the provided model and plots the image with the predicted class as the title.
+
+    Parameters
+    ----------
+    - model: trained CNN model
+    - image_path: path to the target image
+    - class_names: class names present in the dataset
+    """
+    # Import the target image and preprocess it
+    img = preprocess_image(image_path)
+
+    # Make a prediction
+    pred = model.predict(tf.expand_dims(img, axis=0))
+
+    # Get the predicted class
+    if len(pred[0]) > 1:  # check for multi-class
+        pred_class = class_names[pred.argmax()]  # if more than one output, take the max
+    else:
+        pred_class = class_names[int(tf.round(pred)[0][0])]  # if only one output, round
+
+    # Plot the image and predicted class
+    plt.imshow(img)
+    plt.title(f"Prediction: {pred_class}")
+    plt.axis(False)
