@@ -1,0 +1,2 @@
+model_checkpoint_path: "sign_recognition_3_checkpoint"
+all_model_checkpoint_paths: "sign_recognition_3_checkpoint"
