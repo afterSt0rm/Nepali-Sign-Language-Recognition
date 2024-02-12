@@ -22,7 +22,7 @@ def show_images(target_dir, class_name):
     # Plot images
     plt.figure(figsize=(16, 10))
     for i, img in enumerate(target_images):
-        img_path = target_path + "\\" + img
+        img_path = target_path + "/" + img
         plt.subplot(1, 3, i + 1)
         plt.imshow(mpimg.imread(img_path))
         plt.title(class_name)
