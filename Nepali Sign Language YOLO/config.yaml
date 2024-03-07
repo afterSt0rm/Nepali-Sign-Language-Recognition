@@ -1,0 +1,8 @@
+
+path: "/home/aashish/Downloads/Nepali-Sign-Language-Recognition/Nepali Sign Language Image Annotations (YOLOv8)/"
+train: train/images/
+val: val/images/
+test: test/images/
+
+nc: 46
+names: ['क', 'क्ष', 'ख', 'ग', 'घ', 'ङ', 'च', 'छ', 'ज', 'ज्ञ', 'झ', 'ञ', 'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'त्र', 'थ', 'द', 'ध', 'न', 'प', 'फ', 'ब', 'भ', 'म', 'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह', '०', '१', '२', '३', '४', '५', '६', '७', '८', '९']
